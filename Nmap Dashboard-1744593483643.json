@@ -1,0 +1,1490 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "View and analyze Nmap results with this Grafana Dashboard. ",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4ecda7",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT unix_timestamp as time, \n       value as value1, \n       value * 2 as value2\nFROM raw_table\nWHERE time >= 1739064348376 / 1000 AND time < 1741656348376 / 1000\nORDER BY time DESC\nLIMIT 1\n\n-- SELECT unix_timestamp as time, value as value1, value*2 as value2 From raw_table\n-- WHERE time >= 1739064348376 / 1000 and time < 1741656348376 / 1000\n\n-- SELECT COUNT(DISTINCT ip) AS count\n-- FROM hosts\n-- WHERE start_time >= 1739064348376 AND end_time <= 1741656348376;\n",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time, \n       value as value1, \n       value * 2 as value2\nFROM raw_table\nWHERE time >= $__from / 1000 AND time < $__to / 1000\nORDER BY time DESC\nLIMIT 1\n\n-- SELECT unix_timestamp as time, value as value1, value*2 as value2 From raw_table\n-- WHERE time >= $__from / 1000 and time < $__to / 1000\n\n-- SELECT COUNT(DISTINCT ip) AS count\n-- FROM hosts\n-- WHERE start_time >= $__from AND end_time <= $__to;\n",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Hosts Up",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#4ecda7",
+            "mode": "shades"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 2,
+        "y": 0
+      },
+      "id": 13,
+      "options": {
+        "displayLabels": [],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "-- SELECT\n--   \"dddd5\" As \"os1\",\n--   66 AS \"count4\",6 AS \"count13\"\n-- From raw_table\n\n--  strftime('%H:%M', datetime(unix_timestamp, 'unixepoch')) AS time_group,\nSELECT \n    strftime('%H', datetime(unix_timestamp+ 32400, 'unixepoch')) AS time_group,\n    AVG(value) AS value\n    -- COUNT(value) AS \"count\"\n    \nFROM raw_table\nGROUP BY  strftime('%H', datetime(unix_timestamp+ 32400, 'unixepoch'))\n\n\n\n-- SELECT\n--   os,\n--   COUNT(*) AS \"count\"\n-- FROM hosts\n-- WHERE start_time >= $__from AND end_time < $__to\n-- GROUP BY os\n-- ORDER BY count DESC;\n\n    \n",
+          "queryType": "table",
+          "rawQueryText": "-- SELECT\n--   \"dddd5\" As \"os1\",\n--   66 AS \"count4\",6 AS \"count13\"\n-- From raw_table\n\n--  strftime('%H:%M', datetime(unix_timestamp, 'unixepoch')) AS time_group,\nSELECT \n    strftime('%H', datetime(unix_timestamp+ 32400, 'unixepoch')) AS time_group,\n    AVG(value) AS value\n    -- COUNT(value) AS \"count\"\n    \nFROM raw_table\nGROUP BY  strftime('%H', datetime(unix_timestamp+ 32400, 'unixepoch'))\n\n\n\n-- SELECT\n--   os,\n--   COUNT(*) AS \"count\"\n-- FROM hosts\n-- WHERE start_time >= $__from AND end_time < $__to\n-- GROUP BY os\n-- ORDER BY count DESC;\n\n    \n",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Operating Systems",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#4ecda7",
+            "mode": "shades"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 7,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT \n    strftime('%H:%M', datetime(unix_timestamp+ 32400, 'unixepoch')) AS time_group,\n    AVG(value) AS value,\n    COUNT(value) AS \"count\"\n    \nFROM raw_table\nGROUP BY  strftime('%H:%M', datetime(unix_timestamp+ 32400, 'unixepoch'))\n\n-- SELECT p.port, COUNT(*) AS count\n-- FROM ports p\n-- JOIN hosts h ON p.host_id = h.id\n-- WHERE h.start_time >= $__from AND h.end_time < $__to\n--  AND p.service_info = '' AND p.state = 'open'\n-- GROUP BY p.port",
+          "queryType": "table",
+          "rawQueryText": "SELECT \n    strftime('%H:%M', datetime(unix_timestamp+ 32400, 'unixepoch')) AS time_group,\n    AVG(value) AS value,\n    COUNT(value) AS \"count\"\n    \nFROM raw_table\nGROUP BY  strftime('%H:%M', datetime(unix_timestamp+ 32400, 'unixepoch'))\n\n-- SELECT p.port, COUNT(*) AS count\n-- FROM ports p\n-- JOIN hosts h ON p.host_id = h.id\n-- WHERE h.start_time >= $__from AND h.end_time < $__to\n--  AND p.service_info = '' AND p.state = 'open'\n-- GROUP BY p.port",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Unidentified Services (open port)",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4ecda7",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 9
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value1"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "lcd",
+                  "type": "gauge"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value2"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "gauge"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "count"
+          }
+        ]
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2 From raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 10;\n\n-- SELECT unix_timestamp as time, value as value1, value*2 as value2 From raw_table\n-- WHERE time >= $__from / 1000 and time < $__to / 1000\n\n-- SELECT p.service_info, COUNT(*) AS count\n-- FROM ports p\n-- JOIN hosts h ON p.host_id = h.id\n-- WHERE h.start_time >= $__from AND h.end_time < $__to\n-- AND p.service_info IS NOT NULL AND p.service_info <> ''\n-- GROUP BY p.service_info\n",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2 From raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 10;\n\n-- SELECT unix_timestamp as time, value as value1, value*2 as value2 From raw_table\n-- WHERE time >= $__from / 1000 and time < $__to / 1000\n\n-- SELECT p.service_info, COUNT(*) AS count\n-- FROM ports p\n-- JOIN hosts h ON p.host_id = h.id\n-- WHERE h.start_time >= $__from AND h.end_time < $__to\n-- AND p.service_info IS NOT NULL AND p.service_info <> ''\n-- GROUP BY p.service_info\n",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Identified Services",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4ecda7",
+                "value": null
+              },
+              {
+                "color": "light-purple",
+                "value": 5
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 0,
+        "y": 3
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT unix_timestamp as time\n,value*(ABS(RANDOM() % 110)) / 10.0 as value3\nFrom raw_table\nLIMIT 1;\n\n-- SELECT SUM(unique_open_ports) AS total_unique_open_ports\n-- FROM (\n--   SELECT\n--     COUNT(DISTINCT p.port) AS unique_open_ports,\n--     h.ip AS host_ip\n--   FROM ports p\n--   JOIN hosts h ON p.host_id = h.id\n--   WHERE p.state = 'open' AND h.start_time >= 1739151884490 AND h.end_time < 1741743884490\n--   GROUP BY h.ip, p.port\n-- ) AS subquery;\n    ",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time\n,value*(ABS(RANDOM() % 110)) / 10.0 as value3\nFrom raw_table\nLIMIT 1;\n\n-- SELECT SUM(unique_open_ports) AS total_unique_open_ports\n-- FROM (\n--   SELECT\n--     COUNT(DISTINCT p.port) AS unique_open_ports,\n--     h.ip AS host_ip\n--   FROM ports p\n--   JOIN hosts h ON p.host_id = h.id\n--   WHERE p.state = 'open' AND h.start_time >= $__from AND h.end_time < $__to\n--   GROUP BY h.ip, p.port\n-- ) AS subquery;\n    ",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Open Ports",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4ecda7",
+                "value": null
+              },
+              {
+                "color": "light-purple",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 0,
+        "y": 6
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT unix_timestamp as time\n,value*(ABS(RANDOM() % 110)) / 10.0 as value4\nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 1;\n",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time\n,value*(ABS(RANDOM() % 110)) / 10.0 as value4\nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 1;\n",
+          "refId": "SELECT   COUNT(DISTINCT p.port) AS \"Unique Ports\" FROM ports p JOIN hosts h ON p.host_id = h.id WHERE h.start_time >= $__from AND h.end_time < $__to",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Unique Ports",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 60,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4ecda7",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 10,
+        "x": 2,
+        "y": 7
+      },
+      "id": 5,
+      "options": {
+        "barRadius": 0.05,
+        "barWidth": 0.95,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "port",
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT \n    strftime('%H:%M', datetime(unix_timestamp+ 32400, 'unixepoch')) AS time_group,\n    AVG(value) AS value,\n    COUNT(value) AS \"count\"\n    \nFROM raw_table\nGROUP BY  strftime('%H:%M', datetime(unix_timestamp+ 32400, 'unixepoch'))\nORDER BY unix_timestamp DESC\nLIMIT 10;\n-- SELECT\n--   p.port,\n--   COUNT(DISTINCT h.ip) AS host_count\n-- FROM\n--   hosts h\n--   JOIN ports p ON h.id = p.host_id\n-- WHERE\n--   p.state = 'open' AND h.start_time >= $__from AND h.end_time < $__to\n-- GROUP BY\n--   p.port;",
+          "queryType": "table",
+          "rawQueryText": "SELECT \n    strftime('%H:%M', datetime(unix_timestamp+ 32400, 'unixepoch')) AS time_group,\n    AVG(value) AS value,\n    COUNT(value) AS \"count\"\n    \nFROM raw_table\nGROUP BY  strftime('%H:%M', datetime(unix_timestamp+ 32400, 'unixepoch'))\nORDER BY unix_timestamp DESC\nLIMIT 10;\n-- SELECT\n--   p.port,\n--   COUNT(DISTINCT h.ip) AS host_count\n-- FROM\n--   hosts h\n--   JOIN ports p ON h.id = p.host_id\n-- WHERE\n--   p.state = 'open' AND h.start_time >= $__from AND h.end_time < $__to\n-- GROUP BY\n--   p.port;",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Open Ports Found",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4ecda7",
+                "value": null
+              },
+              {
+                "color": "light-purple",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 0,
+        "y": 9
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT unix_timestamp as time\n,value*(ABS(RANDOM() % 110)) / 10.0 as value5\nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 1;",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time\n,value*(ABS(RANDOM() % 110)) / 10.0 as value5\nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 1;",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Scans",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 17,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "queryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2\n,value*(ABS(RANDOM() % 110)) / 10.0 as value3\n,value*(ABS(RANDOM() % 110)) / 10.0 as value4\n,value*(ABS(RANDOM() % 110)) / 10.0 as value5\n,value*(ABS(RANDOM() % 110)) / 10.0 as value6\n,value*(ABS(RANDOM() % 110)) / 10.0 as value7 \nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \n-- LIMIT 10;",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2\n,value*(ABS(RANDOM() % 110)) / 10.0 as value3\n,value*(ABS(RANDOM() % 110)) / 10.0 as value4\n,value*(ABS(RANDOM() % 110)) / 10.0 as value5\n,value*(ABS(RANDOM() % 110)) / 10.0 as value6\n,value*(ABS(RANDOM() % 110)) / 10.0 as value7 \nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \n-- LIMIT 10;",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Panel Title",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4ecda7",
+                "value": null
+              },
+              {
+                "color": "light-purple",
+                "value": 60
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value1"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 115
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value2"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 160
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value3"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 135
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ports_closed"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 132
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value4"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 111
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value5"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 165
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value6"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "gauge",
+                  "valueDisplayMode": "color"
+                }
+              },
+              {
+                "id": "fieldMinMax",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 293
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 15,
+        "x": 0,
+        "y": 20
+      },
+      "id": 6,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2\n,value*(ABS(RANDOM() % 110)) / 10.0 as value3\n,value*(ABS(RANDOM() % 110)) / 10.0 as value4\n,value*(ABS(RANDOM() % 110)) / 10.0 as value5\n,value*(ABS(RANDOM() % 110)) / 10.0 as value6\n,value*(ABS(RANDOM() % 110)) / 10.0 as value7 \nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 10;\n\n-- SELECT ip, hostname, ports_tested, ports_open, ports_closed, ports_filtered FROM hosts\n-- WHERE start_time >= $__from AND end_time < $__to",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2\n,value*(ABS(RANDOM() % 110)) / 10.0 as value3\n,value*(ABS(RANDOM() % 110)) / 10.0 as value4\n,value*(ABS(RANDOM() % 110)) / 10.0 as value5\n,value*(ABS(RANDOM() % 110)) / 10.0 as value6\n,value*(ABS(RANDOM() % 110)) / 10.0 as value7 \nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 10;\n\n-- SELECT ip, hostname, ports_tested, ports_open, ports_closed, ports_filtered FROM hosts\n-- WHERE start_time >= $__from AND end_time < $__to",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Hosts",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#4ecda7",
+            "mode": "shades"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 0,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 5,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4ecda7",
+                "value": null
+              },
+              {
+                "color": "light-purple",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "elapsed_time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "s"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 9,
+        "x": 15,
+        "y": 20
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2 From raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \n-- ORDER BY time DESC \n-- LIMIT 10;\n\n-- SELECT\n--   start_time AS \"time\",\n--   total_open_ports AS \"open_ports\",\n--   total_hosts\n-- FROM scans\n-- WHERE\n--   start_time >= $__from / 1000\n--   AND start_time + elapsed_time < $__to / 1000\n-- ORDER BY start_time",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2 From raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \n-- ORDER BY time DESC \n-- LIMIT 10;\n\n-- SELECT\n--   start_time AS \"time\",\n--   total_open_ports AS \"open_ports\",\n--   total_hosts\n-- FROM scans\n-- WHERE\n--   start_time >= $__from / 1000\n--   AND start_time + elapsed_time < $__to / 1000\n-- ORDER BY start_time",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Live Hosts and Open Ports over Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "#4ecda7",
+                "value": null
+              },
+              {
+                "color": "light-purple",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 9,
+        "x": 15,
+        "y": 24
+      },
+      "id": 15,
+      "options": {
+        "displayMode": "gradient",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": true
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT \n    strftime('%H:%M', datetime(unix_timestamp + 32400, 'unixepoch')) AS time_group,\n    AVG(value) AS value,\n    COUNT(value) AS \"count\"\n    \nFROM raw_table\nGROUP BY  strftime('%H:%M', datetime(unix_timestamp + 32400, 'unixepoch'))\n\n-- SELECT unix_timestamp as time, \n-- value*(ABS(RANDOM() % 110)) / 10.0 as value2\n-- From raw_table\n-- WHERE time >= $__from / 1000 and time < $__to / 1000 \n-- ORDER BY time DESC \n-- LIMIT 10;\n\n-- SELECT ip, \n--        (ports_tested * 1.0) / ((end_time - start_time) / 1000) AS avg_ports_per_second\n-- FROM hosts\n-- WHERE start_time >= $__from AND end_time < $__to AND ports_tested IS NOT NULL\n-- ORDER BY ip;",
+          "queryType": "table",
+          "rawQueryText": "SELECT \n    strftime('%H:%M', datetime(unix_timestamp + 32400, 'unixepoch')) AS time_group,\n    AVG(value) AS value,\n    COUNT(value) AS \"count\"\n    \nFROM raw_table\nGROUP BY  strftime('%H:%M', datetime(unix_timestamp + 32400, 'unixepoch'))\n\n-- SELECT unix_timestamp as time, \n-- value*(ABS(RANDOM() % 110)) / 10.0 as value2\n-- From raw_table\n-- WHERE time >= $__from / 1000 and time < $__to / 1000 \n-- ORDER BY time DESC \n-- LIMIT 10;\n\n-- SELECT ip, \n--        (ports_tested * 1.0) / ((end_time - start_time) / 1000) AS avg_ports_per_second\n-- FROM hosts\n-- WHERE start_time >= $__from AND end_time < $__to AND ports_tested IS NOT NULL\n-- ORDER BY ip;",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Port Tested Per Second by Host",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "id": 16,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "queryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2\n,value*(ABS(RANDOM() % 110)) / 10.0 as value3\n,value*(ABS(RANDOM() % 110)) / 10.0 as value4\n,value*(ABS(RANDOM() % 110)) / 10.0 as value5\n,value*(ABS(RANDOM() % 110)) / 10.0 as value6\n,value*(ABS(RANDOM() % 110)) / 10.0 as value7 \nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 10;",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2\n,value*(ABS(RANDOM() % 110)) / 10.0 as value3\n,value*(ABS(RANDOM() % 110)) / 10.0 as value4\n,value*(ABS(RANDOM() % 110)) / 10.0 as value5\n,value*(ABS(RANDOM() % 110)) / 10.0 as value6\n,value*(ABS(RANDOM() % 110)) / 10.0 as value7 \nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 10;",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Panel Title",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4ecda7",
+                "value": null
+              },
+              {
+                "color": "light-purple",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 224
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value5"
+            },
+            "properties": [
+              {
+                "id": "custom.width"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "gauge",
+                  "valueDisplayMode": "color"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value2"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value1"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value6"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "gauge",
+                  "valueDisplayMode": "color"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value3"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value4"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 41
+      },
+      "id": 14,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT unix_timestamp as time\n,value as value1\n,value*2 as value2 \n,value*(ABS(RANDOM() % 110)) / 10.0 as value3\n,value*(ABS(RANDOM() % 110)) / 10.0 as value4\n,value*(ABS(RANDOM() % 110)) / 10.0 as value5\n,value*(ABS(RANDOM() % 110)) / 10.0 as value6\nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 10;\n\n-- SELECT\n--   datetime(start_time, 'unixepoch') AS start_time_utc,\n--   nmap_version,\n--   command_line,\n--   elapsed_time,\n--   total_hosts,\n--   total_open_ports\n-- FROM scans\n-- WHERE\n--   start_time >= $__from / 1000\n--   AND start_time + elapsed_time < $__to / 1000",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time\n,value as value1\n,value*2 as value2 \n,value*(ABS(RANDOM() % 110)) / 10.0 as value3\n,value*(ABS(RANDOM() % 110)) / 10.0 as value4\n,value*(ABS(RANDOM() % 110)) / 10.0 as value5\n,value*(ABS(RANDOM() % 110)) / 10.0 as value6\nFrom raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 10;\n\n-- SELECT\n--   datetime(start_time, 'unixepoch') AS start_time_utc,\n--   nmap_version,\n--   command_line,\n--   elapsed_time,\n--   total_hosts,\n--   total_open_ports\n-- FROM scans\n-- WHERE\n--   start_time >= $__from / 1000\n--   AND start_time + elapsed_time < $__to / 1000",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Scans Loaded",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "befnz57xzwyyod"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value1"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 85
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "value2"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 115
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 49
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "http_title"
+          }
+        ]
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "ceaml076uxrlsf"
+          },
+          "queryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2 From raw_table\nWHERE time >= 1739423174159 / 1000 and time < 1739480369746 / 1000 \nORDER BY time DESC \nLIMIT 10;\n\n-- SELECT h.ip, p.protocol, p.port, p.service_info, p.http_title, p.ssl_common_name, p.ssl_issuer\n-- FROM ports p\n-- JOIN hosts h ON p.host_id = h.id\n-- WHERE h.start_time >= 1739423174159 AND h.end_time < 1739480369746\n-- AND p.state = 'open'\n",
+          "queryType": "table",
+          "rawQueryText": "SELECT unix_timestamp as time, value as value1, value*2 as value2 From raw_table\nWHERE time >= $__from / 1000 and time < $__to / 1000 \nORDER BY time DESC \nLIMIT 10;\n\n-- SELECT h.ip, p.protocol, p.port, p.service_info, p.http_title, p.ssl_common_name, p.ssl_issuer\n-- FROM ports p\n-- JOIN hosts h ON p.host_id = h.id\n-- WHERE h.start_time >= $__from AND h.end_time < $__to\n-- AND p.state = 'open'\n",
+          "refId": "A",
+          "timeColumns": [
+            "time",
+            "ts"
+          ]
+        }
+      ],
+      "title": "Open Services",
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "refresh": "1m",
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Nmap Dashboard",
+  "uid": "cdikljcadaf40c",
+  "version": 14,
+  "weekStart": ""
+}
