@@ -11,6 +11,13 @@
 
 #deactivate
 
+# https://github.com/serhmarch/ModbusTools/releases  -modbus-tools
+
+#https://grafana.com/docs/grafana/latest/setup-grafana/installation/debian/    -grafana
+#https://grafana.com/grafana/download?pg=get&plcmt=selfmanaged-box1-cta1&platform=windows
+#http://127.0.0.1:3000/
+#http://localhost:3000/
+
 
 
 from pymodbus.client import ModbusTcpClient
