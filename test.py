@@ -20,6 +20,11 @@
 
 
 
+# raspberrypi.local:5900  -vnc 접속
+# ssh pi@raspberrypi.local - ssh 접속
+# ping -4 raspberrypi.local
+
+
 from pymodbus.client import ModbusTcpClient
 import sqlite3
 from datetime import datetime
