@@ -1,4 +1,5 @@
 
+#1
 #?pip freeze > requirements.txt    // 기존 가상환경의 모듈 목록을 requirements.txt 파일로 내보냅니다
 #! pip install -r requirements.txt  // 새 가상환경에 모듈 설치
 # python -m venv myenv
