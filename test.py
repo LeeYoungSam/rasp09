@@ -45,6 +45,9 @@
 # ssh pi@raspberrypi.local - ssh 접속
 # ping -4 raspberrypi.local
 
+#!InfluxDB / Telegraf
+#https://www.influxdata.com/downloads/
+
 
 from pymodbus.client import ModbusTcpClient
 import sqlite3
