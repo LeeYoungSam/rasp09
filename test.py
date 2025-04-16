@@ -1,7 +1,11 @@
 
-#5
-#?pip freeze > requirements.txt    // 기존 가상환경의 모듈 목록을 requirements.txt 파일로 내보냅니다
-#! pip install -r requirements.txt  // 새 가상환경에 모듈 설치
+#! Python: Select Interpreter 입력 후 선택
+
+#! 가상환경 모듈 일괄 설치
+#pip freeze > requirements.txt    // 기존 가상환경의 모듈 목록을 requirements.txt 파일로 내보냅니다
+#pip install -r requirements.txt  // 새 가상환경에 모듈 설치
+
+#!가상환경만들기
 # python -m venv myenv
 # source myenv/bin/activate  # Linux/Mac
 # myenv\Scripts\activate  # Windows
@@ -9,18 +13,34 @@
 #source .myenv/bin/activate  # Linux/WSL
 #.myenv\Scripts\activate     # Windows
 
-
 #deactivate
 
+#! 모드버스 툴
 # https://github.com/serhmarch/ModbusTools/releases  -modbus-tools
 
+#! SQLite Viewer
+
+#! 그라파나 설치 / 시작
 #https://grafana.com/docs/grafana/latest/setup-grafana/installation/debian/    -grafana
 #https://grafana.com/grafana/download?pg=get&plcmt=selfmanaged-box1-cta1&platform=windows
 #http://127.0.0.1:3000/
 #http://localhost:3000/
 
+#? 그라파나 대시보드 모음
+# https://grafana.com/grafana/dashboards/
+
+#?윈도우 서비스 시작 중지
+#cd C:\Program Files\GrafanaLabs\grafana\bin
+#net stop grafana 
+#net start grafana
+
+#데미안
+# sudo systemctl start grafana-server
+# sudo systemctl stop grafana-server
+# sudo systemctl restart grafana-server
 
 
+#!라스베리파이 접속
 # raspberrypi.local:5900  -vnc 접속
 # ssh pi@raspberrypi.local - ssh 접속
 # ping -4 raspberrypi.local
@@ -44,17 +64,17 @@ print("Hello, World!123")
 print("Current working directory:", os.getcwd())  #현재 폴더
 
 # Modbus 서버 설정
-#MODBUS_SERVER_IP = '127.0.0.1'  # Modbus 서버 IP 주소
+MODBUS_SERVER_IP = '127.0.0.1'  # Modbus 서버 IP 주소
 #MODBUS_SERVER_IP = '172.20.208.1'  # Modbus 서버 IP 주소
-MODBUS_SERVER_IP = '192.168.0.4'  # Modbus 서버 IP 주소
+# MODBUS_SERVER_IP = '192.168.0.4'  # Modbus 서버 IP 주소
 MODBUS_SERVER_PORT = 502        # Modbus 서버 포트
 MODBUS_UNIT_ID = 1              # Modbus 장치 ID
 
 # SQLite 데이터베이스 설정
 # DATABASE_NAME = '/etc/modbus_data.db'
 #DATABASE_NAME = "/home/pesco/Test/database.db"
-DATABASE_NAME = "/opt/ystest/ystest1/database.db"
-#DATABASE_NAME = 'modbus_data.db'
+# DATABASE_NAME = "/opt/ystest/ystest1/database.db"
+DATABASE_NAME = 'modbus_data.db'
 
 # Modbus 클라이언트 생성
 client = ModbusTcpClient(MODBUS_SERVER_IP, port=MODBUS_SERVER_PORT)
