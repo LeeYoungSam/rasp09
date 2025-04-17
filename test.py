@@ -39,14 +39,20 @@
 # sudo systemctl stop grafana-server
 # sudo systemctl restart grafana-server
 
+#그라파나 테스트
+#http://localhost:3000/
+
+
+#!InfluxDB / Telegraf
+#https://www.influxdata.com/downloads/
+
+#InfluxDB 설정
+#http://localhost:8086/
 
 #!라스베리파이 접속
 # raspberrypi.local:5900  -vnc 접속
 # ssh pi@raspberrypi.local - ssh 접속
 # ping -4 raspberrypi.local
-
-#!InfluxDB / Telegraf
-#https://www.influxdata.com/downloads/
 
 
 from pymodbus.client import ModbusTcpClient
